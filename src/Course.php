@@ -1,9 +1,9 @@
 <?php
 
     class Course {
-        private $name
+        private $name;
         private $course_number;
-        private $id
+        private $id;
 
         function __construct($new_name, $new_course_number, $id = null)
         {
@@ -12,6 +12,7 @@
             $this->id = $id;
         }
 
+        //GETTERS AND SETTERS
         function getName()
         {
             return $this->name;
@@ -40,6 +41,35 @@
         function setId($new_id)
         {
             $this->id = $new_id;
+        }
+
+        //DATABASE METHODS
+        function save()
+        {
+            $statement = $GLOBALS['DB']->query("INSERT INTO courses (name, number) VALUES ('{$this->getName()}', {$this->getCourseNumber()}) RETURNING id;");
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $this->setId($result['id']);
+        }
+
+        static function getAll()
+        {
+            $rows = $GLOBALS['DB']->query("SELECT * FROM courses;");
+
+            $courses = array();
+            foreach($rows as $row)
+            {
+                $id = $row['id'];
+                $name = $row['name'];
+                $course_number = $row['number'];
+                $new_course = new Course($name, $course_number, $id);
+                array_push($courses, $new_course);
+            }
+            return $courses;
+        }
+
+        static function deleteAll()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM courses *;");
         }
     }
 
