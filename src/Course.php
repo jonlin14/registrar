@@ -12,7 +12,6 @@
             $this->id = $id;
         }
 
-        function find($search_id)
 
 
         //GETTERS AND SETTERS
@@ -74,6 +73,23 @@
         {
             $GLOBALS['DB']->exec("DELETE FROM courses *;");
         }
+
+        static function find($search_id)
+        {
+            $statement = $GLOBALS['DB']->query("SELECT * FROM courses WHERE id = {$search_id};");
+            $found_course = null;
+
+            foreach ($statement as $element)
+            {
+                $name = $element['name'];
+                $course_number = $element['number'];
+                $id = $element['id'];
+                $found_course = new Course($name, $course_number, $id);
+            }
+            return $found_course;
+
+        }
+
     }
 
  ?>
