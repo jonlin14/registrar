@@ -52,7 +52,7 @@
             $this->assertEquals($test_student, $result[0]);
         }
 
-        function test_deleteStudents()
+        function test_deleteStudentsCheckCourse()
         {
             //arrange
             $test_course = new Course("Intro to C++", 105);
