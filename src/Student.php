@@ -38,7 +38,7 @@
         }
 
         //this function requires date to be formatted as follow
-        //Ex. YYYY-MM-DD - 2015-03-22
+        //Ex. YYYY-MM-DD -> 2015-03-22
         function setEnrollment($new_enrollment)
         {
             //format our date to match the database
@@ -66,6 +66,23 @@
             $enrollment_db = $GLOBALS['DB']->query("SELECT enrollment FROM students WHERE id = {$this->getId()};");
             $result = $enrollment_db->fetch(PDO::FETCH_ASSOC);
             $this->setEnrollment($result['enrollment']);
+        }
+
+        static function find($search_id)
+        {
+            //query to find the Student
+            $query = $GLOBALS['DB']->query("SELECT * FROM students WHERE id = {$search_id};");
+            $found_student = null;
+
+            foreach($query as $row)
+            {
+                $id = $row['id'];
+                $name = $row['name'];
+                $enrollment = formatDate($row['enrollment']);
+                $new_student = new Student($name, $enrollment, $id);
+                $found_student = $new_student;
+            }
+            return $found_student;
         }
 
         static function getAll()

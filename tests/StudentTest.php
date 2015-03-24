@@ -16,6 +16,19 @@
             Student::deleteAll();
         }
 
+        function test_find()
+        {
+            //arrange
+            $test_student = new Student("Ben", "5/30/2015");
+            $test_student->save();
+
+            //act
+            $result = Student::find($test_student->getId());
+
+            //assert
+            $this->assertEquals($test_student, $result);
+        }
+
         function test_save()
         {
             //arrange

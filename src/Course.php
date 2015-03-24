@@ -12,6 +12,9 @@
             $this->id = $id;
         }
 
+        function find($search_id)
+
+
         //GETTERS AND SETTERS
         function getName()
         {

@@ -17,6 +17,20 @@
             Course::deleteAll();
         }
 
+
+        function test_find()
+        {
+            //arrange
+            $test_course = new Course("Theoretical Phys Ed", 500, 4);
+
+            //act
+            $test_course->save();
+            $result = Course::find($test_course->getId());
+
+            //assert
+            $this->assertEquals($test_course, $result);
+
+        }
         function test_save()
         {
             //arrange
