@@ -11,6 +11,37 @@
 
     class StudentTest extends PHPUnit_Framework_TestCase
     {
+        function tearDown()
+        {
+            Student::deleteAll();
+        }
+
+        function test_save()
+        {
+            //arrange
+            $test_student = new Student("Sean", "1/20/2015");
+
+            //act
+            $test_student->save();
+            $result = Student::getAll();
+
+            //assert
+            $this->assertEquals([$test_student], $result);
+        }
+
+        function test_formatDate_date()
+        {
+            //arrange
+            $date = "2015-01-20";
+            $test_student = new Student("Mark", $date);
+
+            //act
+            $result = formatDate($date);
+
+            //assert
+            $this->assertEquals("01/20/2015", $result);
+        }
+
         function test_getName()
         {
             //arrange
@@ -55,7 +86,7 @@
         function test_setId()
         {
             //arrange
-            $test_student = new Student("Science", 2025, 3);
+            $test_student = new Student("Kyle", 2025, 3);
 
             //act
             $test_student->setId(15);
@@ -68,26 +99,28 @@
         function test_getEnrollment()
         {
             //arrange
-            $test_student = new Student("Discrete Datastructures", 2035);
+            $test_student = new Student("Rick", "01/01/2035");
+            $test_student->save();
 
             //act
             $result = $test_student->getEnrollment();
 
             //assert
-            $this->assertEquals(2035, $result);
+            $this->assertEquals("01/01/2035", $result);
         }
 
         function test_setEnrollment()
         {
             //arrange
-            $test_student = new Student("Discrete Datastructures", 2325);
+            $test_student = new Student("Marley", '1/1/2325');
+            $test_student->save();
 
             //act
-            $test_student->setEnrollment(2425);
+            $test_student->setEnrollment('2014-01-30');
             $result = $test_student->getEnrollment();
 
             //assert
-            $this->assertEquals(2425, $result);
+            $this->assertEquals('01/30/2014', $result);
         }
     }
 
