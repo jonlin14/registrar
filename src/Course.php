@@ -53,6 +53,18 @@
             $this->setId($result['id']);
         }
 
+        function update($new_name)
+        {
+                $GLOBALS['DB']->exec("UPDATE courses SET name = '{$new_name}';");
+                $this->setName($new_name);
+        }
+
+        function delete()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM courses WHERE id = {$this->getId()};");
+
+        }
+
         static function getAll()
         {
             $rows = $GLOBALS['DB']->query("SELECT * FROM courses;");

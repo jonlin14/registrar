@@ -17,6 +17,49 @@
             Course::deleteAll();
         }
 
+        function test_delete()
+        {
+            //arrange
+            $test_course = new Course("Beginner PHP", 100, 2);
+            $test_course->save();
+
+            //act
+            $test_course->delete();
+
+            //assert
+            $this->assertEquals([], Course::getAll());
+        }
+
+
+
+
+
+        function test_updateDatabase()
+        {
+            //arrange
+            $test_course = new Course("Beginner French", 100, 4);
+            $new_course_name = "Beginner Spanish";
+            $test_course->save();
+
+            $test_course->update($new_course_name);
+            $result = Course::getAll();
+
+            $this->assertEquals("Beginner Spanish", $result[0]->getName());
+
+        }
+        function test_update()
+        {
+            //arrange
+            $test_course = new Course("Advanced Dungeons and Dragons", 1000, 5);
+            $new_course_name = "Intro to Moving";
+
+            //act
+            $test_course->update($new_course_name);
+            $result = $test_course->getName();
+
+            //assert
+            $this->assertEquals("Intro to Moving", $result);
+        }
 
         function test_find()
         {
