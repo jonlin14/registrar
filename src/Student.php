@@ -45,6 +45,8 @@
             $this->enrollment_date = formatDate($new_enrollment);
         }
 
+
+
         function getId()
         {
             return $this->id;
@@ -77,6 +79,7 @@
         function delete()
         {
             $GLOBALS['DB']->exec("DELETE FROM students WHERE id = {$this->getId()};");
+            $GLOBALS['DB']->exec("DELETE FROM courses_students WHERE student_id = {$this->getId()};");
         }
 
         function addCourse($new_course)
@@ -124,6 +127,21 @@
             return $found_student;
         }
 
+        static function nameSearch($search_name)
+        {
+            $query = $GLOBALS['DB']->query("SELECT id FROM students where name = '{$search_name}';");
+            $hello = $query->fetch(PDO::FETCH_ASSOC);
+            return Student::find($hello['id']);
+        }
+
+        static function enrollmentSearch($search_enrollment)
+        {
+            $query = $GLOBALS["DB"]->query("SELECT id FROM students WHERE enrollment = '{$search_enrollment}';");
+            $results = $query->fetch(PDO::FETCH_ASSOC);
+            return Student::find($results['id']);
+
+
+        }
         static function getAll()
         {
             $rows = $GLOBALS['DB']->query("SELECT * FROM students;");

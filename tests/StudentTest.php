@@ -17,6 +17,33 @@
             Course::deleteAll();
         }
 
+        function test_nameSearch()
+        {
+            //arrange
+            $test_student = new Student('Franklin', "12/01/2010");
+            $test_student->save();
+            $test_student1 = new Student('Arnold', "12/05/2010");
+            $test_student1->save();
+
+            //act
+            $result = Student::nameSearch('Franklin');
+
+            //assert
+            $this->assertEquals($test_student, $result);
+        }
+
+        function test_enrollmentSearch()
+        {
+            $test_student = new Student('Harold', "01/01/1000");
+            $test_student->save();
+            $test_student1 = new Student('Tim', "02/02/2000");
+            $test_student1->save();
+
+            $result = Student::enrollmentSearch("01/01/1000");
+
+            $this->assertEquals($test_student, $result);
+
+        }
         function test_addCourse()
         {
             //arrange
@@ -55,9 +82,42 @@
             $this->assertEquals([$test_course,$test_course2], $result);
         }
 
+        function test_deleteStudentCourses()
+        {
+            //arrange
+            $test_student = new Student("Jonathan", "5/1/2014");
+            $test_student->save();
+
+            $test_course = new Course("Modern Flaming", 345);
+            $test_course->save();
+
+            $test_student->addCourse($test_course);
+
+            //act
+            $test_student->delete();
+            $result = $test_course->getStudents();
+
+            //assert
+            $this->assertEquals([], $result);
+        }
+
         function test_deleteStudent()
         {
+            //arrange
+            $test_student = new Student("Jonathan", "5/1/2014");
+            $test_student->save();
 
+            $test_course = new Course("Modern Flaming", 345);
+            $test_course->save();
+
+            $test_student->addCourse($test_course);
+
+            //act
+            $test_student->delete();
+            $result = $test_student->getCourses();
+
+            //assert
+            $this->assertEquals([], $result);
         }
 
         function test_delete()
