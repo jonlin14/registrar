@@ -16,6 +16,49 @@
             Student::deleteAll();
         }
 
+        
+
+        function test_delete()
+        {
+            //arrange
+            $test_student = new Student("Jonathan", "5/1/2014");
+            $test_student->save();
+
+            //act
+            $test_student->delete();
+            $result = Student::getAll();
+
+            //assert
+            $this->assertEquals([], $result);
+        }
+
+        function test_updateDatabase()
+        {
+            //arrange
+            $test_student = new Student("Robert", "4/1/2111");
+            $test_student->save();
+
+            //act
+            $test_student->update("Bob");
+            $result = Student::find($test_student->getId());
+
+            //assert
+            $this->assertEquals("Bob", $result->getName());
+        }
+
+        function test_update()
+        {
+            //arrange
+            $test_student = new Student("Daniel", "4/1/2111");
+            $test_student->save();
+
+            //act
+            $test_student->update("Dan");
+
+            //assert
+            $this->assertEquals("Dan", $test_student->getName());
+        }
+
         function test_find()
         {
             //arrange
